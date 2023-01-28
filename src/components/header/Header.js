@@ -1,7 +1,7 @@
 import classes from './Header.module.css'
 import {Link} from 'react-router-dom'
 
-function Header() {
+function Header(props) {
 
     return (
         <div className={classes.header}>
@@ -13,7 +13,7 @@ function Header() {
                     <Link to="/">Home</Link>
                 </div>
                 <div>
-                    <button>Add new book</button>
+                    <button onClick={props.openPopUp}>Add new book</button>
                 </div>
             </div>
         </div>
