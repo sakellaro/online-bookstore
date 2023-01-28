@@ -1,7 +1,7 @@
 import classes from './Header.module.css'
 import {Link} from 'react-router-dom'
 
-function Header(props) {
+function Header() {
 
     return (
         <div className={classes.header}>
@@ -13,9 +13,7 @@ function Header(props) {
                     <Link to="/">Home</Link>
                 </div>
                 <div>
-                    <button>
-                        Add new book
-                    </button>
+                    <button>Add new book</button>
                 </div>
             </div>
         </div>
