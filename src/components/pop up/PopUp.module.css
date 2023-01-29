@@ -31,7 +31,7 @@
     text-decoration: underline;
 }
 
-.closePopUp:hover {
+.closePopUp :first-child:hover {
     cursor: pointer;
 }
 
@@ -59,7 +59,7 @@
 
 .label {
     font-size: 15px;
-    color: rgb(90, 90, 90);
+    color: rgb(100, 100, 100);
 }
 
 .input {
@@ -68,9 +68,55 @@
     font-size: 14px;
     border: 1px solid rgb(168, 168, 168);
     border-radius: 5px;
+    width: 95%;
 }
 
 .input:focus {
     background-color: rgb(250, 250, 250);
     outline: none;
+}
+
+.categoryInput {
+    margin-top: 5px;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid rgb(168, 168, 168);
+    border-radius: 5px;
+    width: 45%;
+}
+
+.addCategory {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.addCategory > * {
+    cursor: pointer;
+}
+
+.addCategoryImg {
+    padding-right: 5px;
+}
+
+.submitButton {
+    background-color:#13a8be;
+    color: whitesmoke;
+    border: none;
+    padding: 8px 16px;
+    font-size: 15px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.submitButton:hover {
+    background-color:#10bbd5;
+    cursor: pointer;
+}
+
+.hint {
+    color: rgb(92, 92, 92);
+    font-size: small;
 }
