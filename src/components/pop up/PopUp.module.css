@@ -77,11 +77,21 @@
 }
 
 .categoryInput {
-    width: 45%;
+    width: 40%;
 }
 
 .categoryInput0, .categoryInput2 {
-    margin-right: 10px;
+    margin-right: 20px;
+}
+
+.binIcon {
+    font-size: 20px;
+    margin-left: 5px;
+}
+
+.binIcon:hover {
+    color:#13a8be;
+    cursor: pointer;
 }
 
 .addCategory {
