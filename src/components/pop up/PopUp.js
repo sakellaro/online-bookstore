@@ -58,7 +58,7 @@ function PopUp(props) {
                         <label className={classes.label} htmlFor="Categories"><b>Categories</b></label><br/>
                         {categories.map((category, index)=>{
                             return (
-                                <input key={index} className={`${classes.input} ${classes.categoryInput}`} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={20} required/>
+                                <input key={index} className={`${classes.input} ${classes.categoryInput} `+classes[`categoryInput${index}`]} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={20} required/>
                             )
                         })}
                         {/*<input className={`${classes.input} ${classes.categoryInput}`} type="text" id="title" name="title" placeholder="Enter category name" maxLength={20} onChange={titleChanged} required/>
