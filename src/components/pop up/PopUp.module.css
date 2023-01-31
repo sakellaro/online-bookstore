@@ -80,6 +80,13 @@
     width: 40%;
 }
 
+.publisherAndYearInputs {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    border: 2px solid black;
+}
+
 .categoryInput0, .categoryInput2 {
     margin-right: 20px;
 }
@@ -128,4 +135,8 @@
 .hint {
     color: rgb(92, 92, 92);
     font-size: small;
+}
+
+.hidden {
+    visibility: hidden;
 }

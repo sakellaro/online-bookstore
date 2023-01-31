@@ -15,6 +15,16 @@ function PopUp(props) {
         return [""]
       })
 
+    const [authors, setAuthors] = useState(()=>{
+        return [""]
+      })
+
+    const [publisher, setPublisher] = useState(()=>{
+        return ""
+      })
+
+
+
     function titleChanged(e) {
         setTitle(e.target.value)
     }
@@ -22,6 +32,10 @@ function PopUp(props) {
     function descriptionChanged(e) {
         setDescription(e.target.value)
     }
+
+    
+    
+    /* Categories */
 
     function addNewCategory() {
         setCategories([...categories, ""])
@@ -39,11 +53,45 @@ function PopUp(props) {
     function categoriesChanged(e) {
         setCategories([...categories])
         setCategories(cat=>{
-            console.log(parseInt(e.target.id.split("category")[1]))
             cat[parseInt(e.target.id.split("category")[1])] = e.target.value
             return cat
         })
     }
+
+
+
+    /* Authors */
+
+    function addNewAuthor() {
+        setAuthors([...authors, ""])
+    }
+
+    function removeAuthor(e) {
+        let authorIsGoingToBeRemoved = parseInt(e.target.id.split("binIconForAuthor")[1])
+        setAuthors([...authors])
+        setAuthors(auth=>{
+            auth.splice(authorIsGoingToBeRemoved,1)
+            return auth
+        })
+    }
+
+    function authorsChanged(e) {
+        setAuthors([...authors])
+        setAuthors(auth=>{
+            console.log(parseInt(e.target.id.split("author")[1]))
+            auth[parseInt(e.target.id.split("author")[1])] = e.target.value
+            return auth
+        })
+    }
+
+
+    function publisherChanged(e) {
+        setPublisher(e.target.value)
+    }
+
+
+
+    /* Form Submission */
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -73,13 +121,15 @@ function PopUp(props) {
                     <label className={classes.label} htmlFor="description"><b>Description *</b></label><br/>
                     <textarea className={classes.input} id="description" name="description" placeholder="Enter book description" rows={6} maxLength={512} onChange={descriptionChanged} required/>
                     <br/><br/>
-                    <label className={classes.label} htmlFor="Categories"><b>Categories *</b></label><br/>
-                    {categories.map((category, index)=>{
+                    <label className={classes.label} htmlFor="Categories"><b>Categories (4 max) *</b></label><br/>
+                    { categories.map((category, index)=>{
                         return (
                             <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
                                 <nobr>
-                                    <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={20} onChange={categoriesChanged} value={categories[index]} required/>
-                                    <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIcon${index}`} onClick={removeCategory}/>
+                                    <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={30} onChange={categoriesChanged} value={categories[index]} required/>
+                                    { (categories.length > 1) &&
+                                        <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIcon${index}`} onClick={removeCategory}/>
+                                    }
                                 </nobr>
                             </span>
                         )
@@ -89,7 +139,40 @@ function PopUp(props) {
                         <img onClick={addNewCategory} className={classes.addCategoryImg} src="/images/add.png" alt="Add category" width="14" height="14"/>
                         <span onClick={addNewCategory} className={classes.hint}>Add category</span>
                     </div> }
+                    { (categories.length >= 4) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add category</span>}
+                    <br/>
+                    <label className={classes.label} htmlFor="Authors"><b>Authors (3 max) *</b></label><br/>
+                    {authors.map((author, index)=>{
+                        return (
+                            <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
+                                <nobr>
+                                    <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`author${index}`} name={`author${index}`} placeholder="Enter author name" maxLength={30} onChange={authorsChanged} value={authors[index]} required/>
+                                    { (authors.length > 1) &&
+                                        <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIconForAuthor${index}`} onClick={removeAuthor}/>
+                                    }
+                                </nobr>
+                            </span>
+                        )
+                    })}
+                    { (authors.length < 3) &&
+                    <div className={classes.addCategory}>
+                        <img onClick={addNewAuthor} className={classes.addCategoryImg} src="/images/add.png" alt="Add author" width="14" height="14"/>
+                        <span onClick={addNewAuthor} className={classes.hint}>Add author</span>
+                    </div> }
+                    { (authors.length >= 3) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add author</span>}
+                    <br/>
+                    <div className={classes.publisherAndYearInputs}>
+                        <div>
+                            <label className={classes.label} htmlFor="publisher"><b>Publisher *</b></label><br/>
+                            <input className={`${classes.input} ${classes.publisherInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
+                        </div>
+                        <div>
+                            <label className={classes.label} htmlFor="year"><b>Year *</b></label><br/>
+                            <input className={`${classes.input} ${classes.publisherInput}`} type="number" id="year" name="year" placeholder="Enter the year of publication" min={1000} max={9999} step={1} required/>
+                        </div>
+                    </div>
                     <br/><br/><br/>
+                    <br/><br/>
                     <button type="submit" className={classes.submitButton}>Submit</button><br/>
                     <span className={classes.hint}>The character (*) indicates that the field is required.</span>
                 </form>
