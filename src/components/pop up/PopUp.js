@@ -162,13 +162,13 @@ function PopUp(props) {
                     { (authors.length >= 3) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add author</span>}
                     <br/>
                     <div className={classes.publisherAndYearInputs}>
-                        <div>
+                        <div className={classes.publisher}>
                             <label className={classes.label} htmlFor="publisher"><b>Publisher *</b></label><br/>
-                            <input className={`${classes.input} ${classes.publisherInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
+                            <input className={`${classes.input} ${classes.publiserInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
                         </div>
-                        <div>
+                        <div className={classes.year}>
                             <label className={classes.label} htmlFor="year"><b>Year *</b></label><br/>
-                            <input className={`${classes.input} ${classes.publisherInput}`} type="number" id="year" name="year" placeholder="Enter the year of publication" min={1000} max={9999} step={1} required/>
+                            <input className={`${classes.input} ${classes.yearInput}`} type="number" id="year" name="year" placeholder="Enter year of publication" min={1000} max={9999} step={1} required/>
                         </div>
                     </div>
                     <br/><br/><br/>

@@ -84,7 +84,19 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    border: 2px solid black;
+}
+
+.publiserInput, .yearInput {
+    width: 90%;
+}
+
+.publisher {
+    width: 60%;
+}
+
+.year {
+    margin-left: 20px;
+    width: 40%;
 }
 
 .categoryInput0, .categoryInput2 {
