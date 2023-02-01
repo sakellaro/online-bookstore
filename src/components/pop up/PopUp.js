@@ -23,6 +23,25 @@ function PopUp(props) {
         return ""
       })
 
+    const [year, setYear] = useState(()=>{
+        return ""
+      })
+
+    const [numberOfPages, setNumberOfPages] = useState(()=>{
+        return ""
+      })
+
+    const [rating, setRating] = useState(()=>{
+        return ""
+      })
+
+    const [isbn10, setIsbn10] = useState(()=>{
+        return ""
+      })
+
+    const [isbn13, setIsbn13] = useState(()=>{
+        return ""
+      })
 
 
     function titleChanged(e) {
@@ -90,6 +109,26 @@ function PopUp(props) {
     }
 
 
+    function yearChanged(e) {
+        setYear(e.target.value)
+    }
+
+    function numberOfPagesChanged(e) {
+        setNumberOfPages(e.target.value)
+    }
+
+    function ratingChanged(e) {
+        setRating(e.target.value)
+    }
+
+    function isbn10Changed(e) {
+        setIsbn10(e.target.value)
+    }
+
+    function isbn13Changed(e) {
+        setIsbn13(e.target.value)
+    }
+
 
     /* Form Submission */
 
@@ -106,6 +145,20 @@ function PopUp(props) {
         if (validDescription.exec(description).index === 0) console.log(description)
         else console.log("Non-valid input")
 
+        /* For the ISBN inputs are allowed 10 and 13 numbers correspondingly */
+
+        const validIsbn10 = new RegExp(/^\d{10}$/g)
+        if (validIsbn10.test(isbn10)) {
+            console.log("ok")
+        }
+        else console.log("not ok")
+
+        const validIsbn13 = new RegExp(/^\d{13}$/g)
+        if (validIsbn13.test(isbn13)) {
+            console.log("ok")
+        }
+        else console.log("not ok")
+
     }
 
     return (
@@ -115,6 +168,7 @@ function PopUp(props) {
                 <div className={classes.closePopUp}><span onClick={props.closePopUp}>close</span></div>
                 <h3 className={classes.formTitle} >Add new book</h3>
                 <form onSubmit={handleSubmit}>
+                    <br/><br/>
                     <label className={classes.label} htmlFor="title"><b>Title *</b></label><br/>
                     <input className={classes.input} type="text" id="title" name="title" placeholder="Enter book title" minLength={10} maxLength={120} onChange={titleChanged} required/>
                     <br/><br/>
@@ -161,17 +215,38 @@ function PopUp(props) {
                     </div> }
                     { (authors.length >= 3) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add author</span>}
                     <br/>
-                    <div className={classes.publisherAndYearInputs}>
+                    <div className={classes.pairDiv}>
                         <div className={classes.publisher}>
                             <label className={classes.label} htmlFor="publisher"><b>Publisher *</b></label><br/>
-                            <input className={`${classes.input} ${classes.publiserInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
                         </div>
                         <div className={classes.year}>
                             <label className={classes.label} htmlFor="year"><b>Year *</b></label><br/>
-                            <input className={`${classes.input} ${classes.yearInput}`} type="number" id="year" name="year" placeholder="Enter year of publication" min={1000} max={9999} step={1} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="year" name="year" placeholder="Enter year of publication" min={1000} max={9999} step={1} onChange={yearChanged} required/>
                         </div>
                     </div>
-                    <br/><br/><br/>
+                    <br/>
+                    <div className={classes.pairDiv}>
+                        <div className={classes.numberOfPages}>
+                            <label className={classes.label} htmlFor="numberOfPages"><b>Number of pages *</b></label><br/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="numberOfPages" name="numberOfPages" placeholder="Enter number of pages" max={9999} onChange={numberOfPagesChanged} required/>
+                        </div>
+                        <div className={classes.rating}>
+                            <label className={classes.label} htmlFor="rating"><b>Rating *</b></label><br/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="rating" name="rating" placeholder="Enter rating" min={0} max={5} step={0.1} onChange={ratingChanged} required/>
+                        </div>
+                    </div>
+                    <br/><br/>
+                    <div className={classes.pairDiv}>
+                        <div className={classes.isbn10}>
+                            <label className={classes.label} htmlFor="isbn10"><b>ISBN-10 *</b></label><br/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn10" name="isbn10" placeholder="Enter ISBN-10 number" onChange={isbn10Changed} required/>
+                        </div>
+                        <div className={classes.isbn13}>
+                            <label className={classes.label} htmlFor="isbn13"><b>ISBN-13 *</b></label><br/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn13" name="isbn13" placeholder="Enter ISBN-13 number" onChange={isbn13Changed} required/>
+                        </div>
+                    </div>
                     <br/><br/>
                     <button type="submit" className={classes.submitButton}>Submit</button><br/>
                     <span className={classes.hint}>The character (*) indicates that the field is required.</span>

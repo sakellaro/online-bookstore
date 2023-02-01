@@ -80,23 +80,31 @@
     width: 40%;
 }
 
-.publisherAndYearInputs {
+.pairDiv {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
-.publiserInput, .yearInput {
+.pairInput {
     width: 90%;
 }
 
-.publisher {
+.publisher, .numberOfPages {
     width: 60%;
 }
 
-.year {
-    margin-left: 20px;
+.year, .rating {
+    margin-left: 5px;
     width: 40%;
+}
+
+.isbn10, .isbn13 {
+    width: 50%;
+}
+
+.isbn13 {
+    margin-left: 15px;
 }
 
 .categoryInput0, .categoryInput2 {
