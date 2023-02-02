@@ -1,66 +1,154 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import classes from './PopUp.module.css'
 
 function PopUp(props) {
 
+    /* state variables */
+
+    /* title */
+
     const [title, setTitle] = useState(()=>{
         return ""
       })
+    
+    const [invalidTitle, setInvalidTitle] = useState(()=>{
+        return false
+      })
+
+    
+    /* description */
 
     const [description, setDescription] = useState(()=>{
         return ""
       })
+    
+    const [invalidDescription, setInvalidDescription] = useState(()=>{
+        return false
+      })
+
+
+    /* categories */
 
     const [categories, setCategories] = useState(()=>{
         return [""]
       })
 
+    const [sameCategories, setSameCategories] = useState(()=>{
+        return false
+    })
+
+    const [emptyCategories, setEmptyCategories] = useState(()=>{
+        return false
+    })
+
+
+    /* authors */
+
     const [authors, setAuthors] = useState(()=>{
         return [""]
       })
 
+    const [invalidAuthor, setInvalidAuthors] = useState(()=>{
+        return false
+      })
+
+
+    /* publisher */
+
     const [publisher, setPublisher] = useState(()=>{
         return ""
       })
+    
+    const [invalidPublisher, setInvalidPublisher] = useState(()=>{
+        return false
+      })
+
+
+    /* year */
 
     const [year, setYear] = useState(()=>{
         return ""
       })
+    
+    const [invalidYear, setInvalidYear] = useState(()=>{
+        return false
+      })
+
+    
+    /* numberOfPages */
 
     const [numberOfPages, setNumberOfPages] = useState(()=>{
         return ""
       })
 
+    const [invalidNumberOfPages, setInvalidNumberOfPages] = useState(()=>{
+        return false
+      })
+
+
+    /* rating */
+
     const [rating, setRating] = useState(()=>{
         return ""
       })
 
+    const [invalidRating, setInvalidRating] = useState(()=>{
+        return false
+      })
+
+
+    /* ISBN */
+
     const [isbn10, setIsbn10] = useState(()=>{
         return ""
+      })
+    
+    const [invalidISBN10, setInvalidISBN10] = useState(()=>{
+        return false
       })
 
     const [isbn13, setIsbn13] = useState(()=>{
         return ""
       })
 
+    const [invalidISBN13, setInvalidISBN13] = useState(()=>{
+        return false
+      })
+
+
+
+    /* ref variables */
+
+    const titleInput = useRef()
+    const descriptionInput = useRef()
+
+
+    /* functions */
 
     function titleChanged(e) {
         setTitle(e.target.value)
+        if (invalidTitle) setInvalidTitle(false)
     }
 
     function descriptionChanged(e) {
         setDescription(e.target.value)
+        if (invalidDescription) setInvalidDescription(false)
     }
 
-    
     
     /* Categories */
 
     function addNewCategory() {
+        setEmptyCategories(false)
+        setSameCategories(false)
+
         setCategories([...categories, ""])
     }
 
     function removeCategory(e) {
+        setEmptyCategories(false)
+        setSameCategories(false)
+
         let categoryIsGoingToBeRemoved = parseInt(e.target.id.split("binIcon")[1])
         setCategories([...categories])
         setCategories(cat=>{
@@ -70,6 +158,9 @@ function PopUp(props) {
     }
 
     function categoriesChanged(e) {
+        setEmptyCategories(false)
+        setSameCategories(false)
+
         setCategories([...categories])
         setCategories(cat=>{
             cat[parseInt(e.target.id.split("category")[1])] = e.target.value
@@ -78,14 +169,17 @@ function PopUp(props) {
     }
 
 
-
     /* Authors */
 
     function addNewAuthor() {
+        setInvalidAuthors(false)
+
         setAuthors([...authors, ""])
     }
 
     function removeAuthor(e) {
+        setInvalidAuthors(false)
+
         let authorIsGoingToBeRemoved = parseInt(e.target.id.split("binIconForAuthor")[1])
         setAuthors([...authors])
         setAuthors(auth=>{
@@ -95,9 +189,10 @@ function PopUp(props) {
     }
 
     function authorsChanged(e) {
+        setInvalidAuthors(false)
+
         setAuthors([...authors])
         setAuthors(auth=>{
-            console.log(parseInt(e.target.id.split("author")[1]))
             auth[parseInt(e.target.id.split("author")[1])] = e.target.value
             return auth
         })
@@ -106,27 +201,32 @@ function PopUp(props) {
 
     function publisherChanged(e) {
         setPublisher(e.target.value)
+        if (invalidPublisher) setInvalidPublisher(false)
     }
-
 
     function yearChanged(e) {
         setYear(e.target.value)
+        if (invalidYear) setInvalidYear(false)
     }
 
     function numberOfPagesChanged(e) {
         setNumberOfPages(e.target.value)
+        if (invalidNumberOfPages) setInvalidNumberOfPages(false)
     }
 
     function ratingChanged(e) {
         setRating(e.target.value)
+        if (invalidRating) setInvalidRating(false)
     }
 
     function isbn10Changed(e) {
         setIsbn10(e.target.value)
+        if (invalidISBN10) setInvalidISBN10(false)
     }
 
     function isbn13Changed(e) {
         setIsbn13(e.target.value)
+        if (invalidISBN13) setInvalidISBN13(false)
     }
 
 
@@ -134,30 +234,87 @@ function PopUp(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
+
+        /* VALIDATION */
         
-        /* For the book title are allowed all lowercase and uppercase letters, numbers, space, apostrophe (as it was in titles of the book.json file) as well as all special characters mentioned in the project notes (@”#&*!) */
-        const validTitle = new RegExp('[a-zA-Z0-9 \'@”#&*!]+')
-        if (validTitle.exec(title)[0] === title) console.log(title)
-        else console.log("Non-valid input")
+        /* For the book title are allowed all lowercase and uppercase letters, numbers, space, apostrophe (as it was in titles of the book.json file) as well as all special characters mentioned in the project notes (@”#&*!).
+           Also the min characters should be 10 */
+        const validTitle = new RegExp(/^[a-zA-Z0-9 \'@”#&*!]+$/g)
+        if (!validTitle.test(title) || title.length < 10) {
+            setInvalidTitle(true)
+            titleInput.current.focus()
+            return
+        }
 
-        /* For the book description is allowed every character after an uppercase letter */
-        const validDescription = new RegExp('[A-Z].+')
-        if (validDescription.exec(description).index === 0) console.log(description)
-        else console.log("Non-valid input")
+        /* For the book description is allowed every character after an uppercase letter. 
+           Also a new line is allowed after an uppercase letter followed by any character. */
+        const validDescription = new RegExp(/^[A-Z].+/g)
+        if (!validDescription.test(description)) {
+            setInvalidDescription(true)
+            descriptionInput.current.focus()
+            return
+        }
 
-        /* For the ISBN inputs are allowed 10 and 13 numbers correspondingly */
+        /* For the categories, the "open" fields are required so they can't be empty 
+           and it is not allowed to be the same. */
+        const categoriesValuesArray = []
+        for (let cat of categories) {
+            if (cat.length === 0) {
+                setEmptyCategories(true)
+                return
+            }
+            else if (categoriesValuesArray.includes(cat)) {
+                setSameCategories(true)
+                return
+            }
+            else categoriesValuesArray.push(cat)
+        }
 
+        /* For the authors, the "open" fields are required so they can't be empty, 
+           but it is allowed to be the same. */
+        for (let auth of authors) {
+            if (auth.length === 0) {
+                setInvalidAuthors(true)
+                return
+            }
+        }
+
+        /* For the publisher the min characters should be 5 */
+        if (publisher.length < 5) {
+            setInvalidPublisher(true)
+            return
+        }
+
+        /* For the year are allowed 4 digits */
+        const validYear = new RegExp(/^\d{4}$/g)
+        if (!validYear.test(year)) {
+            setInvalidYear(true)
+            return
+        }
+
+        /* For the number of pages the field is required */
+        if (numberOfPages.length === 0) {
+            setInvalidNumberOfPages(true)
+            return
+        }
+
+        /* For the rating the field is required */
+        if (rating.length === 0) {
+            setInvalidRating(true)
+            return
+        }
+
+        /* For the ISBN inputs are allowed 10 and 13 digits correspondingly */
         const validIsbn10 = new RegExp(/^\d{10}$/g)
-        if (validIsbn10.test(isbn10)) {
-            console.log("ok")
+        if (!validIsbn10.test(isbn10)) {
+            setInvalidISBN10(true)
+            return
         }
-        else console.log("not ok")
-
         const validIsbn13 = new RegExp(/^\d{13}$/g)
-        if (validIsbn13.test(isbn13)) {
-            console.log("ok")
+        if (!validIsbn13.test(isbn13)) {
+            setInvalidISBN13(true)
+            return
         }
-        else console.log("not ok")
 
     }
 
@@ -167,89 +324,122 @@ function PopUp(props) {
             <div className={classes.popUpContent}>
                 <div className={classes.closePopUp}><span onClick={props.closePopUp}>close</span></div>
                 <h3 className={classes.formTitle} >Add new book</h3>
-                <form onSubmit={handleSubmit}>
-                    <br/><br/>
-                    <label className={classes.label} htmlFor="title"><b>Title *</b></label><br/>
-                    <input className={classes.input} type="text" id="title" name="title" placeholder="Enter book title" minLength={10} maxLength={120} onChange={titleChanged} required/>
-                    <br/><br/>
-                    <label className={classes.label} htmlFor="description"><b>Description *</b></label><br/>
-                    <textarea className={classes.input} id="description" name="description" placeholder="Enter book description" rows={6} maxLength={512} onChange={descriptionChanged} required/>
-                    <br/><br/>
-                    <label className={classes.label} htmlFor="Categories"><b>Categories (4 max) *</b></label><br/>
-                    { categories.map((category, index)=>{
-                        return (
-                            <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
-                                <nobr>
-                                    <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={30} onChange={categoriesChanged} value={categories[index]} required/>
-                                    { (categories.length > 1) &&
-                                        <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIcon${index}`} onClick={removeCategory}/>
-                                    }
-                                </nobr>
-                            </span>
-                        )
-                    })}
-                    { (categories.length < 4) &&
-                    <div className={classes.addCategory}>
-                        <img onClick={addNewCategory} className={classes.addCategoryImg} src="/images/add.png" alt="Add category" width="14" height="14"/>
-                        <span onClick={addNewCategory} className={classes.hint}>Add category</span>
-                    </div> }
-                    { (categories.length >= 4) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add category</span>}
-                    <br/>
-                    <label className={classes.label} htmlFor="Authors"><b>Authors (3 max) *</b></label><br/>
-                    {authors.map((author, index)=>{
-                        return (
-                            <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
-                                <nobr>
-                                    <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`author${index}`} name={`author${index}`} placeholder="Enter author name" maxLength={30} onChange={authorsChanged} value={authors[index]} required/>
-                                    { (authors.length > 1) &&
-                                        <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIconForAuthor${index}`} onClick={removeAuthor}/>
-                                    }
-                                </nobr>
-                            </span>
-                        )
-                    })}
-                    { (authors.length < 3) &&
-                    <div className={classes.addCategory}>
-                        <img onClick={addNewAuthor} className={classes.addCategoryImg} src="/images/add.png" alt="Add author" width="14" height="14"/>
-                        <span onClick={addNewAuthor} className={classes.hint}>Add author</span>
-                    </div> }
-                    { (authors.length >= 3) && <span className={`${classes.addCategory} ${classes.hint} ${classes.hidden}`}>Add author</span>}
-                    <br/>
-                    <div className={classes.pairDiv}>
+                <form onSubmit={handleSubmit} noValidate>
+                    <div>
+                        <label className={classes.label} htmlFor="title"><b>Title *</b></label><br/>
+                        <input ref={titleInput} className={classes.input} type="text" id="title" name="title" placeholder="Enter book title" maxLength={120} onChange={titleChanged}/>
+                        {invalidTitle && 
+                            <div className={classes.invalidInput}>The book title is invalid!</div>
+                        }
+                    </div>
+                    <div className={classes.labelAndInputDiv}>
+                        <label className={classes.label} htmlFor="description"><b>Description *</b></label><br/>
+                        <textarea ref={descriptionInput} className={classes.input} id="description" name="description" placeholder="Enter book description" rows={6} maxLength={512} onChange={descriptionChanged}/>
+                        {invalidDescription && 
+                            <div className={classes.invalidInput}>The book description is invalid!</div>
+                        }
+                    </div>
+                    <div className={classes.labelAndInputDiv}>
+                        <label className={classes.label} htmlFor="Categories"><b>Categories (4 max) *</b></label><br/>
+                        { categories.map((category, index)=>{
+                            return (
+                                <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
+                                    <nobr>
+                                        <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`category${index}`} name={`category${index}`} placeholder="Enter category name" maxLength={30} onChange={categoriesChanged} value={categories[index]}/>
+                                        { (categories.length > 1) &&
+                                            <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIcon${index}`} onClick={removeCategory}/>
+                                        }
+                                    </nobr>
+                                </span>
+                            )
+                        })}
+                        { (categories.length < 4) &&
+                        <div className={classes.addCategory}>
+                            <i onClick={addNewCategory} className={`fa fa-plus ${classes.plusIcon}`}/>
+                            <span onClick={addNewCategory} className={classes.hint}>Add category</span>
+                        </div> }
+                        { emptyCategories && 
+                            <div className={classes.invalidInput}>The category fields are required!</div>
+                        }
+                        { sameCategories && 
+                            <div className={classes.invalidInput}>The categories must not be the same!</div>
+                        }
+                    </div>
+                    <div className={classes.labelAndInputDiv}>
+                        <label className={classes.label} htmlFor="Authors"><b>Authors (3 max) *</b></label><br/>
+                        {authors.map((author, index)=>{
+                            return (
+                                <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
+                                    <nobr>
+                                        <input className={`${classes.input} ${classes.categoryInput}`} type="text" id={`author${index}`} name={`author${index}`} placeholder="Enter author name" maxLength={30} onChange={authorsChanged} value={authors[index]}/>
+                                        { (authors.length > 1) &&
+                                            <i className={`fa fa-trash-o ${classes.binIcon}`} id={`binIconForAuthor${index}`} onClick={removeAuthor}/>
+                                        }
+                                    </nobr>
+                                </span>
+                            )
+                        })}
+                        { (authors.length < 3) &&
+                        <div className={classes.addCategory}>
+                            <i onClick={addNewAuthor} className={`fa fa-plus ${classes.plusIcon}`}/>
+                            <span onClick={addNewAuthor} className={classes.hint}>Add author</span>
+                        </div> }
+                        {invalidAuthor && 
+                            <div className={classes.invalidInput}>The author fields are required!</div>
+                        }
+                    </div>
+                    <div className={`${classes.pairDiv} ${classes.labelAndInputDiv}`}>
                         <div className={classes.publisher}>
                             <label className={classes.label} htmlFor="publisher"><b>Publisher *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" minLength={5} maxLength={60} onChange={publisherChanged} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="publisher" name="publisher" placeholder="Enter publisher" maxLength={60} onChange={publisherChanged}/>
+                            {invalidPublisher && 
+                                <div className={classes.invalidInput}>The min characters of the field must be 5!</div>
+                            }
                         </div>
                         <div className={classes.year}>
                             <label className={classes.label} htmlFor="year"><b>Year *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="year" name="year" placeholder="Enter year of publication" min={1000} max={9999} step={1} onChange={yearChanged} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="year" name="year" maxLength={4} placeholder="Enter year of publication" onChange={yearChanged}/>
+                            {invalidYear && 
+                                <div className={classes.invalidInput}>The year must have 4 digits!</div>
+                            }
                         </div>
                     </div>
-                    <br/>
-                    <div className={classes.pairDiv}>
+                    <div className={`${classes.pairDiv} ${classes.labelAndInputDiv}`}>
                         <div className={classes.numberOfPages}>
                             <label className={classes.label} htmlFor="numberOfPages"><b>Number of pages *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="numberOfPages" name="numberOfPages" placeholder="Enter number of pages" max={9999} onChange={numberOfPagesChanged} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="numberOfPages" name="numberOfPages" placeholder="Enter number of pages" min={1} max={9999} onChange={numberOfPagesChanged}/>
+                            {invalidNumberOfPages && 
+                                <div className={classes.invalidInput}>The field is required!</div>
+                            }
                         </div>
                         <div className={classes.rating}>
                             <label className={classes.label} htmlFor="rating"><b>Rating *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="rating" name="rating" placeholder="Enter rating" min={0} max={5} step={0.1} onChange={ratingChanged} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="rating" name="rating" placeholder="Enter rating" min={0} max={5} step={0.1} onChange={ratingChanged}/>
+                            {invalidRating && 
+                                <div className={classes.invalidInput}>The field is required!</div>
+                            }
                         </div>
                     </div>
-                    <br/><br/>
-                    <div className={classes.pairDiv}>
+                    <div className={`${classes.pairDiv} ${classes.labelAndInputDiv}`}>
                         <div className={classes.isbn10}>
                             <label className={classes.label} htmlFor="isbn10"><b>ISBN-10 *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn10" name="isbn10" placeholder="Enter ISBN-10 number" onChange={isbn10Changed} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn10" name="isbn10" maxLength={10} placeholder="Enter ISBN-10 number" onChange={isbn10Changed}/>
+                            {invalidISBN10 && 
+                                <div className={classes.invalidInput}>The ISBN-10 must have 10 digits!</div>
+                            }
                         </div>
                         <div className={classes.isbn13}>
                             <label className={classes.label} htmlFor="isbn13"><b>ISBN-13 *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn13" name="isbn13" placeholder="Enter ISBN-13 number" onChange={isbn13Changed} required/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="text" id="isbn13" name="isbn13" maxLength={13} placeholder="Enter ISBN-13 number" onChange={isbn13Changed}/>
+                            {invalidISBN13 && 
+                                <div className={classes.invalidInput}>The ISBN-13 must have 13 digits!</div>
+                            }
                         </div>
                     </div>
-                    <br/><br/>
-                    <button type="submit" className={classes.submitButton}>Submit</button><br/>
-                    <span className={classes.hint}>The character (*) indicates that the field is required.</span>
+                    <div className={classes.submission}>
+                        <button type="submit" className={classes.submitButton}>Save</button>
+                        <div className={classes.hint}>The character (*) indicates that the field is required.</div>
+                    </div>
                 </form>
             </div>
         </>

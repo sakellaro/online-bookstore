@@ -22,19 +22,6 @@
     background-color: #f8f4fc;
 }
 
-.closePopUp {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    color: rgb(92, 92, 92);
-    font-size: small;
-    text-decoration: underline;
-}
-
-.closePopUp :first-child:hover {
-    cursor: pointer;
-}
-
 @media only screen and (max-width: 1200px){
 
     .popUpContent{
@@ -53,8 +40,25 @@
 
 }
 
+.closePopUp {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    color: rgb(92, 92, 92);
+    font-size: small;
+    text-decoration: underline;
+}
+
+.closePopUp :first-child:hover {
+    cursor: pointer;
+}
+
 .formTitle {
     color: rgb(50, 50, 50);
+}
+
+.labelAndInputDiv {
+    margin-top: 20px;
 }
 
 .label {
@@ -76,35 +80,30 @@
     outline: none;
 }
 
+
+
+/* For Category and Author input fields with ability to add more fields */
+
 .categoryInput {
     width: 40%;
 }
 
-.pairDiv {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+@media only screen and (min-width: 800px) and (max-width: 906px) {
+
+    .categoryInput {
+
+        width: 85%;
+    }
+
 }
 
-.pairInput {
-    width: 90%;
-}
+@media only screen and (max-width: 680px) {
 
-.publisher, .numberOfPages {
-    width: 60%;
-}
+    .categoryInput {
 
-.year, .rating {
-    margin-left: 5px;
-    width: 40%;
-}
+        width: 85%;
+    }
 
-.isbn10, .isbn13 {
-    width: 50%;
-}
-
-.isbn13 {
-    margin-left: 15px;
 }
 
 .categoryInput0, .categoryInput2 {
@@ -133,8 +132,62 @@
     cursor: pointer;
 }
 
-.addCategoryImg {
+.plusIcon {
     padding-right: 5px;
+    font-size: 15px;
+    color: rgb(120, 120, 120);
+}
+
+/* ******************* */
+
+
+
+/* For the fields in input pairs */
+
+.pairDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pairInput {
+    width: 90%;
+}
+
+.isbn10, .isbn13, .year, .rating, .publisher, .numberOfPages {
+    width: 50%;
+}
+
+.isbn13, .year, .rating {
+    margin-left: 15px;
+}
+
+
+@media only screen and (max-width: 600px) {
+
+    .pairDiv {
+
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+
+    .isbn10, .isbn13, .year, .rating, .publisher, .numberOfPages {
+        width: 100%;
+    }
+
+    .isbn13, .year, .rating {
+        margin-left: 0px;
+        margin-top: 20px;
+    }
+
+}
+
+/* ******************* */
+
+
+
+.submission {
+    margin-top: 30px;
 }
 
 .submitButton {
@@ -157,6 +210,8 @@
     font-size: small;
 }
 
-.hidden {
-    visibility: hidden;
+.invalidInput {
+    color: red;
+    font-size: small;
+    margin-top: 5px;
 }
