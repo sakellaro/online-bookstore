@@ -5,6 +5,7 @@ function PopUp(props) {
 
     /* state variables */
 
+
     /* title */
 
     const [title, setTitle] = useState(()=>{
@@ -23,6 +24,17 @@ function PopUp(props) {
       })
     
     const [invalidDescription, setInvalidDescription] = useState(()=>{
+        return false
+      })
+
+
+    /* image */
+
+    const [image, setImage] = useState(()=>{
+        return ""
+      })
+    
+    const [invalidImage, setInvalidImage] = useState(()=>{
         return false
       })
 
@@ -121,6 +133,7 @@ function PopUp(props) {
 
     const titleInput = useRef()
     const descriptionInput = useRef()
+    const imageInput = useRef()
 
 
     /* functions */
@@ -135,6 +148,11 @@ function PopUp(props) {
         if (invalidDescription) setInvalidDescription(false)
     }
 
+
+    function imageChanged(e) {
+        setImage(e.target.files[0])
+        if (invalidImage) setInvalidImage(false)
+    }
     
     /* Categories */
 
@@ -255,6 +273,13 @@ function PopUp(props) {
             return
         }
 
+        /* For the image the field is required */
+        if (!image) {
+            setInvalidImage(true)
+            imageInput.current.focus()
+            return
+        }
+
         /* For the categories, the "open" fields are required so they can't be empty 
            and it is not allowed to be the same. */
         const categoriesValuesArray = []
@@ -340,7 +365,14 @@ function PopUp(props) {
                         }
                     </div>
                     <div className={classes.labelAndInputDiv}>
-                        <label className={classes.label} htmlFor="Categories"><b>Categories (4 max) *</b></label><br/>
+                        <label className={classes.label} htmlFor="image"><b>Import Book Image *</b></label><br/>
+                        <input ref={imageInput} className={classes.importImageInput} type="file" id="image" name="image" onChange={imageChanged}/>
+                        {invalidImage && 
+                            <div className={classes.invalidInput}>The book image is required!</div>
+                        }
+                    </div>
+                    <div className={classes.labelAndInputDiv}>
+                        <label className={classes.label} htmlFor="category0"><b>Categories (4 max) *</b></label><br/>
                         { categories.map((category, index)=>{
                             return (
                                 <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
@@ -366,7 +398,7 @@ function PopUp(props) {
                         }
                     </div>
                     <div className={classes.labelAndInputDiv}>
-                        <label className={classes.label} htmlFor="Authors"><b>Authors (3 max) *</b></label><br/>
+                        <label className={classes.label} htmlFor="author0"><b>Authors (3 max) *</b></label><br/>
                         {authors.map((author, index)=>{
                             return (
                                 <span key={index} className={`${classes.categoryInput} `+classes[`categoryInput${index}`]}>
