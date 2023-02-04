@@ -3,11 +3,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import PopUp from './components/pop up/PopUp';
+import Home from './components/home/Home';
 
 function App() {
 
   // Variable that counts submissions from popUp while we are on the home page.
-  // We need this variable in order to trigger the useEffect hook on the home page.
+  // We need this variable in order to trigger the useEffect hook on the home page, 
+  // everytime a submission is made.
   const [submitEvent, setSubmitEvent] = useState(()=>{
     return 0
   })
@@ -44,15 +46,15 @@ function App() {
         openPopUp = {openPopUp}
         isActive = {isActive}
       />
-      <Footer/>
-
       <Routes>
         <Route path="/" element = {
-          <>
-            
-          </>
+          <Home
+            setIsActive = {setIsActive}
+            submitEvent = {submitEvent}
+          />
         }/>
       </Routes>
+      <Footer/>
     </Router>
   );
 }

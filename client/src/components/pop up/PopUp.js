@@ -265,9 +265,9 @@ function PopUp(props) {
 
         // VALIDATION
         
-        /* For the book title are allowed all lowercase and uppercase letters, numbers, space, apostrophe (as it was in titles of the book.json file) as well as all special characters mentioned in the project notes (@”#&*!).
+        /* For the book title are allowed all lowercase and uppercase letters, numbers, space, comma apostrophe (as it was in titles of the book.json file) as well as all special characters mentioned in the project notes (@”#&*!).
            Also the min characters should be 10 */
-        const validTitle = new RegExp(/^[a-zA-Z0-9 \'@”#&*!]+$/g)
+        const validTitle = new RegExp(/^[a-zA-Z0-9 ,\'@”#&*!]+$/g)
         if (!validTitle.test(title) || title.length < 10) {
             setInvalidTitle(true)
             titleInput.current.focus()
@@ -327,14 +327,14 @@ function PopUp(props) {
             return
         }
 
-        // For the number of pages the field is required
-        if (numberOfPages.length === 0) {
+        // For the number of pages the field is required and the values should be integers from 1-9999
+        if (numberOfPages.length === 0 || parseInt(numberOfPages) < 1 || parseInt(numberOfPages) > 9999 || parseInt(numberOfPages) !== parseFloat(numberOfPages)) {
             setInvalidNumberOfPages(true)
             return
         }
 
-        // For the rating the field is required
-        if (rating.length === 0) {
+        // For the rating the field is required and the values should be from 0-5 with 0.5 step
+        if (rating.length === 0 || parseFloat(rating) < 0 || (parseFloat(rating) > 5) || (parseInt(rating) !== parseFloat(rating) && (parseInt(rating[2]) !== 5 || rating.length !==3 )) ) {
             setInvalidRating(true)
             return
         }
@@ -487,14 +487,14 @@ function PopUp(props) {
                             <label className={classes.label} htmlFor="numberOfPages"><b>Number of pages *</b></label><br/>
                             <input className={`${classes.input} ${classes.pairInput}`} type="number" id="numberOfPages" name="numberOfPages" placeholder="Enter number of pages" min={1} max={9999} onChange={numberOfPagesChanged}/>
                             {invalidNumberOfPages && 
-                                <div className={classes.invalidInput}>The field is required!</div>
+                                <div className={classes.invalidInput}>The field is invalid!</div>
                             }
                         </div>
                         <div className={classes.rating}>
                             <label className={classes.label} htmlFor="rating"><b>Rating *</b></label><br/>
-                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="rating" name="rating" placeholder="Enter rating" min={0} max={5} step={0.1} onChange={ratingChanged}/>
+                            <input className={`${classes.input} ${classes.pairInput}`} type="number" id="rating" name="rating" placeholder="Enter rating" min={0} max={5} step={0.5} onChange={ratingChanged}/>
                             {invalidRating && 
-                                <div className={classes.invalidInput}>The field is required!</div>
+                                <div className={classes.invalidInput}>The field is invalid!</div>
                             }
                         </div>
                     </div>
