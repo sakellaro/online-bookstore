@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
 import PopUp from './components/pop up/PopUp';
 import Home from './components/home/Home';
+import Book from './components/book/Book'
 
 function App() {
 
@@ -19,7 +20,6 @@ function App() {
     return true
   })
 
-
   // Pop Up
 
   const [popUp, setPopUp] = useState(()=>{
@@ -33,6 +33,34 @@ function App() {
   function closePopUp() {
     setPopUp(false);
   }
+
+
+  // Books
+  const [books, setBooks] = useState(()=>{
+    return []
+  })
+
+  // Check if the server response is ok
+  const [serverResponse, setServerResponse] = useState(()=>{
+    return true
+  })
+
+  // Fetch data
+  useEffect( () => {
+    async function fetchData() {
+      const response = await fetch("/books")
+      if (response.ok) {
+          setServerResponse(true)
+          const data = await response.json()
+
+          // This condition is because we want the useEffect hook to be triggered
+          // only when the database is updated
+          if (books.length !== data.length) setBooks(data)
+      }
+      else setServerResponse(false)
+    }
+      fetchData();
+  }, [books, submitEvent] )
 
   return (
     <Router>
@@ -49,8 +77,15 @@ function App() {
       <Routes>
         <Route path="/" element = {
           <Home
+            books = {books}
             setIsActive = {setIsActive}
-            submitEvent = {submitEvent}
+            serverResponse = {serverResponse}
+          />
+        }/>
+        <Route path="/:id" element = {
+          <Book
+            setIsActive = {setIsActive}
+            books = {books}
           />
         }/>
       </Routes>
