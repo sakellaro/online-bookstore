@@ -11,7 +11,7 @@ function BookImage(props) {
 
     return (
         <div className={classes.imageContainer}>
-            <div className={classes.blurImage} onClick={navigateToBook}>
+            <div className={classes.blurImage} style={{width:`${props.width}px`, height:`${props.height}px`}} onClick={navigateToBook}>
                 <div className={classes.blur}/>
                 <img className={classes.imageIcon} width={20} src='./images/link.png' alt='link'/>
                 <div className={classes.image} style={{backgroundImage: `url(${props.image})`}}/>

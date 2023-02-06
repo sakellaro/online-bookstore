@@ -1,11 +1,20 @@
 .book {
     width: 90%;
     margin: auto;
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.firstRow {
+    margin-bottom: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-evenly;
-    margin-top: 50px;
-    margin-bottom: 50px;
+}
+
+.secondRow {
+    width: 80%;
+    margin: auto;
 }
 
 .leftColumn {
@@ -42,12 +51,18 @@
 }
 
 .stars {
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .star {
     margin: 0px 4px;
     font-size: 30px;
+    color: #c4a300;
+}
+
+.bookStar {
+    margin: 0px 2px;
+    font-size: large;
     color: #c4a300;
 }
 
@@ -89,7 +104,7 @@
 
 @media only screen and (max-width: 800px){
 
-    .book{
+    .firstRow{
 
         flex-direction: column;
         align-items: center;

@@ -6,8 +6,6 @@
 }
 
 .blurImage {
-    height: 300px;
-    width: 200px;
     position: relative;
     cursor: pointer;
     overflow: hidden;

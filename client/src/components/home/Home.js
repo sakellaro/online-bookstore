@@ -78,6 +78,8 @@ function Home(props) {
                 title = {book.title}
                 image = {book.image}
                 stars = {stars}
+                height = {300}
+                width = {200}
             />
         )
     }

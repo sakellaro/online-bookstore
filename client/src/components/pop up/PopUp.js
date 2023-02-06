@@ -267,7 +267,7 @@ function PopUp(props) {
         
         /* For the book title are allowed all lowercase and uppercase letters, numbers, space, comma apostrophe (as it was in titles of the book.json file) as well as all special characters mentioned in the project notes (@”#&*!).
            Also the min characters should be 10 */
-        const validTitle = new RegExp(/^[a-zA-Z0-9 ,\'@”#&*!]+$/g)
+        const validTitle = new RegExp(/^[a-zA-Z0-9 ,'@”#&*!]+$/g)
         if (!validTitle.test(title) || title.length < 10) {
             setInvalidTitle(true)
             titleInput.current.focus()

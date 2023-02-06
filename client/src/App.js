@@ -5,6 +5,7 @@ import Footer from './components/footer/Footer';
 import PopUp from './components/pop up/PopUp';
 import Home from './components/home/Home';
 import Book from './components/book/Book'
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
 
@@ -64,7 +65,7 @@ function App() {
 
   return (
     <Router>
-
+      <ScrollToTop/>
       {popUp && <PopUp
         closePopUp = {closePopUp}
         setSubmitEvent = {setSubmitEvent}
