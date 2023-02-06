@@ -131,29 +131,32 @@ function Book(props) {
                         customTransition="all .5"
                         transitionDuration={500}>
                         {props.books.map((element, index)=>{
-                            const bookStars = []
-                            if (parseInt(element.rating) !== parseFloat(element.rating)) {
-                                for (let i=0; i<parseInt(element.rating); i++){
-                                    bookStars.push(<i key={i} className={`${classes.bookStar} fa fa-star`}/>)
+                            if (element._id !== book._id) {
+                                const bookStars = []
+                                if (parseInt(element.rating) !== parseFloat(element.rating)) {
+                                    for (let i=0; i<parseInt(element.rating); i++){
+                                        bookStars.push(<i key={i} className={`${classes.bookStar} fa fa-star`}/>)
+                                    }
+                                    bookStars.push(<i key={9} className={`${classes.bookStar} fa fa-star-half-full`}/>)
                                 }
-                                bookStars.push(<i key={9} className={`${classes.bookStar} fa fa-star-half-full`}/>)
-                            }
-                            else {
-                                for (let i=0; i<parseInt(element.rating); i++){
-                                    bookStars.push(<i key={i} className={`${classes.bookStar} fa fa-star`}/>)
+                                else {
+                                    for (let i=0; i<parseInt(element.rating); i++){
+                                        bookStars.push(<i key={i} className={`${classes.bookStar} fa fa-star`}/>)
+                                    }
                                 }
+                                return(
+                                    <BookImage
+                                        key = {index}
+                                        id = {element._id}
+                                        title = {element.title}
+                                        image = {element.image}
+                                        stars = {bookStars}
+                                        height = {200}
+                                        width = {133.3}
+                                    />
+                                )
                             }
-                            return(
-                                <BookImage
-                                    key = {index}
-                                    id = {element._id}
-                                    title = {element.title}
-                                    image = {element.image}
-                                    stars = {bookStars}
-                                    height = {200}
-                                    width = {133.3}
-                                />
-                            )
+                            else return null
                         })}
                     </Carousel>
                 </div>
