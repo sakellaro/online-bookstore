@@ -1,3 +1,3 @@
-From command line go to "server" folder and write the command "npm start".
-From command line go to "client" folder and write the command "npm install".
-Then inside "client" folder again press write the command "npm start".
+A) From command line go to "server" folder and write the command "npm start".
+B) From command line go to "client" folder and write the command "npm install".
+C) Then inside "client" folder again press write the command "npm start".
